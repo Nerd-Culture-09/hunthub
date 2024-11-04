@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model User {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  slug          String         @default("slug")
+  email         String         @unique
+  phone         String
+  emailVerified DateTime?
+  password      String
+  role          UserRole @default(USER)
+  isVerified    Boolean @default(false)
+  token         Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Booking {
+  id              String   @id @default(cuid()) @map("_id")
+  roomId          String   @db.ObjectId
+  roomTitle       String?
+  checkInDate     DateTime
+  checkOutDate    DateTime
+  fullName        String
+  email           String
+  phoneNumber     String
+  bookingFor      String
+  paymentMethod   String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  room            Room     @relation(fields: [roomId], references: [id])
+}
+
+
+model Room {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  image       String
+  category    Category
+  price       String
+  amenities   String[]
+  isAvailable Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  bookings    Booking[]
+}
+
+
+enum Category {
+  NORTH
+  SOUTH
+}
+
+model Review {
+  id         String   @id @default(uuid()) @map("_id")
+  fullName   String
+  image      String?
+  email      String   @unique
+  occupation String
+  message    String
+  createdAt  DateTime @default(now())
+}
+
+model Reservation {
+  id             String   @id @default(cuid()) @map("_id")
+  fullName       String
+  checkIn        DateTime
+  checkOut       DateTime
+  branch         String
+  numberOfRooms  Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}

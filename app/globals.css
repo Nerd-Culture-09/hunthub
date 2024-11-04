@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom font import */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+/* Keyframes for sliding text effect */
+@keyframes slideInOut {
+  0% {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+  10% {
+    opacity: 1;
+    transform: translate3d(0%, 0, 0);
+  }
+  90% {
+    opacity: 1;
+    transform: translate3d(-100%, 0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-200%, 0, 0);
+  }
+}
+
+/* Keyframes for shiny effect */
+@keyframes shiny {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Class for applying the sliding animation */
+.animate-slide {
+  animation: slideInOut 5s ease-in-out infinite;
+}
+
+/* Class for applying the shiny effect */
+.animate-shiny {
+  background-size: 200% 200%;
+  animation: shiny 3s ease-in-out infinite;
+}
+
+/* Custom font class */
+.font-custom {
+  font-family: 'Orbitron', sans-serif;
+}
