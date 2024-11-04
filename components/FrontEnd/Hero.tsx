@@ -8,7 +8,7 @@ import Testimonial from './Testimonials';
 import Team from './Team';
 import { ImagesSliderDemo } from './Image-slider-Carousel';
 import { BackGroundBoxBar } from './BackGroundBox-bar'; // Import the BackgroundBoxesDemo component
-import AvailableRoomCards from './AvailableRooms';
+import AvailablehouseCards from "@/components/FrontEnd/AvailableHouses"
 
 export default function Hero() {
   return (
@@ -19,7 +19,7 @@ export default function Hero() {
           <ImagesSliderDemo />
         </div>
         <BackGroundBoxBar />
-        <AvailableRoomCards />
+        <AvailablehouseCards />
         <Testimonial />
         <Team />
         <div

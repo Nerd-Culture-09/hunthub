@@ -40,7 +40,7 @@ import {
     AlertDialogTrigger 
   } from "@/components/ui/alert-dialog";
 import { CheckIcon } from "lucide-react"
-import { createReservation, getAvailRooms } from "@/actions/rooms"
+import { createReservation, getAvailhouses } from "@/actions/house"
 import toast, { Toaster } from 'react-hot-toast';
 
 
@@ -54,7 +54,7 @@ export function BookDrawer() {
       const router = useRouter(); // Use the Next.js router for redirection
       const cancelRef = useRef(null); // Reference for the cancel button in AlertDialog
     
-      // State for date, branch selection, and available rooms
+      // State for date, branch selection, and available houses
       const [checkIn, setCheckIn] = useState<Date | undefined>();
       const [checkOut, setCheckOut] = useState<Date | undefined>();
       const [selectHour, setSelectHour] = useState<string | undefined>();
@@ -62,30 +62,30 @@ export function BookDrawer() {
       const [selectedHour, setSelectedHour] = useState<string | undefined>();
       const [selectedMinute, setSelectedMinute] = useState<string | undefined>();
       const [branch, setBranch] = useState<"North" | "South" | undefined>();
-      const [numberOfRooms, setNumberOfRooms] = useState<number | undefined>();
+      const [numberOfhouses, setNumberOfhouses] = useState<number | undefined>();
       const [isLoading, setIsLoading] = useState(false);
-      const [availableRooms, setAvailableRooms] = useState<any[]>([]);
+      const [availablehouses, setAvailablehouses] = useState<any[]>([]);
 
       // State for controlling the AlertDialog and loader inside it
       const [isDialogLoading, setIsDialogLoading] = useState(false);
       const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-       // Fetch available rooms on component mount
+       // Fetch available houses on component mount
         useEffect(() => {
-            const fetchAvailableRooms = async () => {
-            const result = await getAvailRooms();
+            const fetchAvailablehouses = async () => {
+            const result = await getAvailhouses();
             if (result.status === 200) {
-                setAvailableRooms(result.data ?? []); // Fallback to an empty array if result.data is null
+                setAvailablehouses(result.data ?? []); // Fallback to an empty array if result.data is null
             }
             };
 
-            fetchAvailableRooms();
+            fetchAvailablehouses();
         }, []);
 
          // Submit function inside the AlertDialog action
   const onSubmit = async (data: ReservationProps) => {
     if (!branch) {
-      toast.error("Please select a room");
+      toast.error("Please select a house");
       return;
     }
     if (!checkIn || !checkOut) {
@@ -100,7 +100,7 @@ export function BookDrawer() {
         checkIn,
         checkOut,
         branch, // Now guaranteed to be either "North" or "South"
-        numberOfRooms: Number(numberOfRooms),
+        numberOfhouses: Number(numberOfhouses),
       };
 
       const result = await createReservation(reservationData);
@@ -178,27 +178,27 @@ export function BookDrawer() {
             <Input
                 type="number"
                 placeholder="Enter number"
-                onChange={(e) => setNumberOfRooms(Number(e.target.value))}
+                onChange={(e) => setNumberOfhouses(Number(e.target.value))}
             />
             </div>
         </LabelInputContainer>
         <LabelInputContainer>
-        <span className="text-black text-sm">Select Room</span>
+        <span className="text-black text-sm">Select house</span>
             <Select onValueChange={(value) => setBranch(value as "North" | "South")}>
                 <SelectTrigger className="w-[280px]">
-                <SelectValue placeholder="Select a Room" />
+                <SelectValue placeholder="Select a house" />
                 </SelectTrigger>
                 <SelectContent>
                 <SelectGroup>
-                    <SelectLabel>Available Rooms</SelectLabel>
-                    {availableRooms.length > 0 ? (
-                    availableRooms.map((room) => (
-                        <SelectItem key={room.id} value={room.title}>
-                        {room.title} - {room.category}
+                    <SelectLabel>Available houses</SelectLabel>
+                    {availablehouses.length > 0 ? (
+                    availablehouses.map((house) => (
+                        <SelectItem key={house.id} value={house.title}>
+                        {house.title} - {house.category}
                         </SelectItem>
                     ))
                     ) : (
-                    <SelectItem disabled value="no_rooms">No rooms available</SelectItem>
+                    <SelectItem disabled value="no_houses">No houses available</SelectItem>
                     )}
                 </SelectGroup>
                 </SelectContent>
@@ -220,7 +220,7 @@ export function BookDrawer() {
                     <AlertDialogTitle>Confirm Reservation</AlertDialogTitle>
                     <AlertDialogDescription>
                     <div className="text-neutral-900 mt-1 relative z-20">
-                    Follow these steps to pay for your room:
+                    Follow these steps to pay for your house:
                     <ul className="list-none mt-2">
                         <Step title="Are you paying with Mpesa or Ecocash?" />
                         <Step title="Mpesa Merchant(12345) / Ecocash Merchant(12345)" />

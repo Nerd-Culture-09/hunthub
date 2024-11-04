@@ -13,7 +13,7 @@ export const ourFileRouter = {
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
       return { uploadedBy: "The Valley" };
     }),
-    roomImage: f({ image: { maxFileSize: "1MB" } })
+    houseImage: f({ image: { maxFileSize: "1MB" } })
     .onUploadComplete(async ({ metadata, file }) => {
       console.log("file url", file.url);
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback

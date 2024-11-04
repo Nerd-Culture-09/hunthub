@@ -12,7 +12,7 @@ const NavigationBar = () => {
 
   const navigation = [
     { title: "Home", path: "/" },
-    { title: "Rooms", path: "/all-rooms" },
+    { title: "houses", path: "/all-houses" },
     { title: "Pricing", path: "/pricing" },
     { title: "About", path: "/about" },
     { title: "Contact", path: "/contact" },

@@ -9,11 +9,11 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-interface RoomCarouselDemoProps {
+interface houseCarouselDemoProps {
   images: string[];
 }
 
-export function RoomCarouselDemo({ images }: RoomCarouselDemoProps) {
+export function houseCarouselDemo({ images }: houseCarouselDemoProps) {
   return (
     <Carousel className="mt-40 justify-start flex flex-row">
       <CarouselContent>

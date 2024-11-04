@@ -11,7 +11,7 @@ const fontSans = FontSans({
 })
 
 export const metadata: Metadata = {
-  title: "The Valley",
+  title: "Hunt Hub",
 };
 
 export default function RootLayout({

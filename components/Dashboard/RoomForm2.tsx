@@ -11,10 +11,10 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from "next/navigation"; // Router hook from Next.js
 import { Input } from "../ui/input";
 import ImageInput from "../FormInputs/ImageInput"; // Custom image input component
-import { RoomProps } from "@/types/types";
-import { createRoom } from "@/actions/rooms";
+import { houseProps } from "@/types/types";
+import { createhouse } from "@/actions/house";
 
-export default function RoomForm2({ title }: { title: string }) {
+export default function HouseForm2({ title }: { title: string }) {
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>(""); // State for image URL
 
@@ -23,35 +23,35 @@ export default function RoomForm2({ title }: { title: string }) {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<RoomProps>();
+  } = useForm<houseProps>();
 
   const router = useRouter(); // Router instance
 
   // Function to handle form submission
-async function onSubmit(data: RoomProps) {
+async function onSubmit(data: houseProps) {
   setIsLoading(true); // Set loading state to true
   data.imageUrl = imageUrl; // Set image URL in form data
 
   console.log("Form data submitted:", data); // Debugging: log form data
 
   try {
-    // Call the createRoom API with form data
-    const response = await createRoom(data);
+    // Call the createhouse API with form data
+    const response = await createhouse(data);
 
     console.log("API Response:", response); // Debugging: log API response
 
     if (response.status === 201) {
-      toast.success("Room Created Successfully");
+      toast.success("house Created Successfully");
       reset(); // Reset form fields
-      router.push("/dashboard/south"); // Redirect to rooms dashboard
+      router.push("/dashboard/south"); // Redirect to houses dashboard
     } else if (response.status === 409) {
-      toast.error("Room with this slug already exists."); // Handle conflict
+      toast.error("house with this slug already exists."); // Handle conflict
     } else {
-      toast.error("Failed to create room."); // Handle general errors
+      toast.error("Failed to create house."); // Handle general errors
     }
   } catch (error) {
     console.error("Error in onSubmit:", error); // Debugging: log any errors caught in try/catch
-    toast.error("Error creating room. Please try again.");
+    toast.error("Error creating house. Please try again.");
   } finally {
     setIsLoading(false); // Reset loading state
   }
@@ -72,31 +72,31 @@ async function onSubmit(data: RoomProps) {
         </div>
       </div>
 
-      {/* Form for submitting room data */}
+      {/* Form for submitting house data */}
       <form onSubmit={handleSubmit(onSubmit)} className="py-4 px-4 mx-auto">
         <div className="grid gap-4 grid-cols-2">
-          {/* Text input for room title */}
+          {/* Text input for house title */}
           <TextInput
-            label="Room Title"
+            label="house Title"
             register={register}
             name="title"
             errors={errors}
-            placeholder="Enter Room Title"
+            placeholder="Enter house Title"
           />
-          {/* Text input for room description */}
+          {/* Text input for house description */}
           <TextInput
-            label="Room Description"
+            label="house Description"
             register={register}
             name="description"
             errors={errors}
-            placeholder="Enter Room Description"
+            placeholder="Enter house Description"
           />
-          {/* Image input for room image */}
+          {/* Image input for house image */}
           <ImageInput
-            label="Room Image"
+            label="house Image"
             imageUrl={imageUrl}
             setImageUrl={setImageUrl}
-            endpoint="roomImage"
+            endpoint="houseImage"
           />
           {/* Text input for price */}
           <TextInput
@@ -135,7 +135,7 @@ async function onSubmit(data: RoomProps) {
             <Link href="/dashboard/south">Cancel</Link>
           </Button>
           <SubmitButton
-            title={"Create Room"}
+            title={"Create house"}
             isLoading={isLoading}
             LoadingTitle={"Saving please wait..."}
           />

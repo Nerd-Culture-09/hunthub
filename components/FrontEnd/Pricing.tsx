@@ -15,10 +15,10 @@ const Pricing = () => {
         "Single Bed",
         "Electric Blanket",
         "TV - easy access channels",
-        "Bathroom",
+        "Bathhouse",
         "Kettle",
       ],
-      url: "/all-rooms",
+      url: "/all-houses",
     },
     {
       name: "Standard 2 Hour Package",
@@ -31,10 +31,10 @@ const Pricing = () => {
         "Double Bed",
         "Electric Blanket",
         "TV - premium channels",
-        "Bathroom",
+        "Bathhouse",
         "Kettle",
       ],
-      url: "/all-rooms",
+      url: "/all-houses",
     },
     {
       name: "Basic  All Night Package",
@@ -47,10 +47,10 @@ const Pricing = () => {
         "Double Bed",
         "Electric Blanket",
         "TV - easy access channels",
-        "Bathroom",
+        "Bathhouse",
         "Kettle",
       ],
-      url: "/all-rooms",
+      url: "/all-houses",
     },
     {
       name: "Standard All Night Package",
@@ -63,10 +63,10 @@ const Pricing = () => {
         "Double Bed",
         "Electric Blanket",
         "TV- premium channels",
-        "Bathroom",
+        "Bathhouse",
         "Kettle",
       ],
-      url: "/all-rooms",
+      url: "/all-houses",
     },
   ];
 
@@ -75,7 +75,7 @@ const Pricing = () => {
       <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
         <div className="relative max-w-xl mx-auto sm:text-center">
           <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
-            Our Affordable Room Packages
+            Our Affordable house Packages
           </h3>
           <div className="mt-3 max-w-xl">
             <p>View our packages and choose the one that suits you</p>

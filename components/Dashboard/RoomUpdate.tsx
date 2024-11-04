@@ -19,10 +19,10 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { updateRoomAvailability, deleteRoom } from "@/actions/rooms"; // Make sure these are client-side safe
+import { updatehouseAvailability, deletehouse } from "@/actions/house"; // Make sure these are client-side safe
 import { Button } from "../ui/button";
 
-interface Room {
+interface house {
   id: string;
   title: string;
   description: string;
@@ -33,55 +33,55 @@ interface Room {
   isAvailable: boolean;
 }
 
-interface RoomUpdateProps {
-  rooms: Room[]; // Expect rooms to be passed from the server
+interface houseUpdateProps {
+  houses: house[]; // Expect houses to be passed from the server
 }
 
-export default function RoomUpdate({ rooms }: RoomUpdateProps) {
+export default function HouseUpdate({ houses }: houseUpdateProps) {
   // Hooks should always be called, even if the array is empty
-  const [roomList, setRoomList] = useState<Room[]>(rooms); // Use initial rooms passed from the server
-  const [updatingRoomId, setUpdatingRoomId] = useState<string | null>(null);
-  const [deletingRoomId, setDeletingRoomId] = useState<string | null>(null);
+  const [houseList, sethouseList] = useState<house[]>(houses); // Use initial houses passed from the server
+  const [updatinghouseId, setUpdatinghouseId] = useState<string | null>(null);
+  const [deletinghouseId, setDeletinghouseId] = useState<string | null>(null);
 
-  // Add this return block to check for empty room list
-  if (!rooms || rooms.length === 0) {
-    return <p>No rooms available.</p>;
+  // Add this return block to check for empty house list
+  if (!houses || houses.length === 0) {
+    return <p>No houses available.</p>;
   }
 
   const handleUpdateAvailability = async (
-    roomId: string,
+    houseId: string,
     isAvailable: boolean
   ) => {
-    setUpdatingRoomId(roomId);
-    const response = await updateRoomAvailability(roomId, isAvailable);
+    setUpdatinghouseId(houseId);
+    const response = await updatehouseAvailability(houseId, isAvailable);
     if (response.status === 200) {
-      setRoomList((prevRooms) =>
-        prevRooms.map((room) =>
-          room.id === roomId ? { ...room, isAvailable } : room
+      sethouseList((prevhouses) =>
+        prevhouses.map((house) =>
+          house.id === houseId ? { ...house, isAvailable } : house
         )
       );
     }
-    setUpdatingRoomId(null);
+    setUpdatinghouseId(null);
   };
 
-  const handleDeleteRoom = async (roomId: string) => {
-    setDeletingRoomId(roomId);
-    const response = await deleteRoom(roomId);
+  const handleDeletehouse = async (houseId: string) => {
+    setDeletinghouseId(houseId);
+    const response = await deletehouse(houseId);
     if (response.status === 200) {
-      setRoomList((prevRooms) => prevRooms.filter((room) => room.id !== roomId));
+      sethouseList((prevhouses) => prevhouses.filter((house) => house.id !== houseId));
     }
-    setDeletingRoomId(null);
+    setDeletinghouseId(null);
   };
 
   return (
     <div className="flex flex-col gap-6">
-      {roomList.map((room) => (
-        <Card key={room.id} className="w-full">
+      {houseList.map((house) => (
+        <Card key={house.id} className="w-full">
           <CardHeader>
-            <CardTitle className="text-xl font-semibold">{room.title}</CardTitle>
-            <CardDescription className="text-gray-500">{room.description}</CardDescription>
-            <p className={`text-sm font-semibold ${room.isAvailable ? "text-green-500" : "text-red-500"}`}>
-              {room.isAvailable ? "Available" : "Booked"}
+            <CardTitle className="text-xl font-semibold">{house.title}</CardTitle>
+            <CardDescription className="text-gray-500">{house.description}</CardDescription>
+            <p className={`text-sm font-semibold ${house.isAvailable ? "text-green-500" : "text-red-500"}`}>
+              {house.isAvailable ? "Available" : "Booked"}
             </p>
           </CardHeader>
           <CardContent className="flex gap-4">
@@ -93,24 +93,24 @@ export default function RoomUpdate({ rooms }: RoomUpdateProps) {
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Update availability for {room.title}</AlertDialogTitle>
+                  <AlertDialogTitle>Update availability for {house.title}</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Click on Available to mark the room available for booking or Booked to mark the room unavailable for booking.
+                    Click on Available to mark the house available for booking or Booked to mark the house unavailable for booking.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                   <AlertDialogAction
                     className="bg-red-600"
-                    onClick={() => handleUpdateAvailability(room.id, false)}
-                    disabled={updatingRoomId === room.id}
+                    onClick={() => handleUpdateAvailability(house.id, false)}
+                    disabled={updatinghouseId === house.id}
                   >
                     Booked
                   </AlertDialogAction>
                   <AlertDialogAction
                     className="bg-blue-600"
-                    onClick={() => handleUpdateAvailability(room.id, true)}
-                    disabled={updatingRoomId === room.id}
+                    onClick={() => handleUpdateAvailability(house.id, true)}
+                    disabled={updatinghouseId === house.id}
                   >
                     Available
                   </AlertDialogAction>
@@ -118,16 +118,16 @@ export default function RoomUpdate({ rooms }: RoomUpdateProps) {
               </AlertDialogContent>
             </AlertDialog>
 
-            {/* Delete Room Button */}
+            {/* Delete house Button */}
             <AlertDialog>
               <AlertDialogTrigger>
                 <Button variant="destructive">
-                  Delete Room
+                  Delete house
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Are you sure you want to delete this room?</AlertDialogTitle>
+                  <AlertDialogTitle>Are you sure you want to delete this house?</AlertDialogTitle>
                   <AlertDialogDescription>
                     This action cannot be undone.
                   </AlertDialogDescription>
@@ -136,10 +136,10 @@ export default function RoomUpdate({ rooms }: RoomUpdateProps) {
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                   <AlertDialogAction
                     className="bg-red-600"
-                    onClick={() => handleDeleteRoom(room.id)}
-                    disabled={deletingRoomId === room.id}
+                    onClick={() => handleDeletehouse(house.id)}
+                    disabled={deletinghouseId === house.id}
                   >
-                    {deletingRoomId === room.id ? "Deleting..." : "Delete"}
+                    {deletinghouseId === house.id ? "Deleting..." : "Delete"}
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>

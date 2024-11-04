@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { RoomCarouselDemo } from "./RoomCarousel";
+import { houseCarouselDemo } from "./houseCarousel";
 import { Button } from "@/components/ui/button";
 import { Timeline } from "./BookTimeline";
 import { ConfirmationPage } from "./ConfirmBooking";
@@ -14,7 +14,7 @@ interface DummyContentProps {
   images: string[];
   price: string;
   amenities: string[];
-  roomId: string;
+  houseId: string;
 }
 
 export const DummyContent: React.FC<DummyContentProps> = ({
@@ -23,7 +23,7 @@ export const DummyContent: React.FC<DummyContentProps> = ({
   images,
   price,
   amenities,
-  roomId
+  houseId
 }) => {
   const [step, setStep] = useState(1);
   const [userDetails, setUserDetails] = useState<{
@@ -60,7 +60,7 @@ export const DummyContent: React.FC<DummyContentProps> = ({
     Table: <Table className="w-5 h-5 text-blue-600" />,
   };
 
-  console.log('Room ID passed to DummyContent:', roomId);
+  console.log('house ID passed to DummyContent:', houseId);
 
   return (
     <>
@@ -69,7 +69,7 @@ export const DummyContent: React.FC<DummyContentProps> = ({
         {step === 1 && (
           <div className="lg:w-3/4">
             <div className="-mt-28">
-              <RoomCarouselDemo images={images} />
+              <houseCarouselDemo images={images} />
               <div className="w-full flex justify-center p-5">
                 <Button onClick={handleNextStep}>Book now</Button>
               </div>
@@ -80,8 +80,8 @@ export const DummyContent: React.FC<DummyContentProps> = ({
         {step === 2 && (
           <div className="lg:w-3/4">
             <BookingForm 
-              roomId={roomId} 
-              roomTitle={title}
+              houseId={houseId} 
+              houseTitle={title}
               onNextStep={updateUserDetails} 
             />
           </div>
@@ -105,7 +105,7 @@ export const DummyContent: React.FC<DummyContentProps> = ({
                   Price: <span className="text-green-600 font-semibold">M{price}</span>
                 </h1>
               </h4>
-              <div className="room-amenities">
+              <div className="house-amenities">
                 <h4 className="font-bold">Amenities:</h4>
                 <ul className="flex space-x-4">
                   {amenities.map((amenity, index) => (

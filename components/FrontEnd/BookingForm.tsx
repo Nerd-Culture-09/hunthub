@@ -13,8 +13,8 @@ import { createBooking } from "@/actions/booking";
 import { title } from "process";
 
 interface BookingFormProps {
-  roomId: string;
-  roomTitle: string;  // Add roomTitle prop
+  houseId: string;
+  houseTitle: string;  // Add houseTitle prop
   onNextStep: (details: {
     fullName: string;
     email: string;
@@ -22,7 +22,7 @@ interface BookingFormProps {
     payment: string;
   }) => void;
 }
-export default function BookingForm({ roomId,  onNextStep  }: BookingFormProps) {
+export default function BookingForm({ houseId,  onNextStep  }: BookingFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const {
@@ -61,8 +61,8 @@ export default function BookingForm({ roomId,  onNextStep  }: BookingFormProps) 
   
     const bookingData: BookingProps = {
       ...data,
-      roomId: roomId,
-      roomTitle: title,
+      houseId: houseId,
+      houseTitle: title,
       checkInDate: new Date(checkInDate!),
       checkOutDate: new Date(checkOutDate!),
       paymentMethod: paymentMethod || "",
