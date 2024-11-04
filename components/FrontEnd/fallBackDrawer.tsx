@@ -1,14 +1,14 @@
-import * as React from "react"
-import { Bar, BarChart, Label, ResponsiveContainer } from "recharts"
+import * as React from "react";
+import { Bar, BarChart, Label, ResponsiveContainer } from "recharts";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "../ui/input"
-import { cn } from "@/lib/utils"
-import { useEffect, useRef, useState } from "react"
-import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
-import { ReservationProps } from "@/types/types"
-import { DatePickerInput } from "../FormInputs/DatePickerInput"
+import { Button } from "@/components/ui/button";
+import { Input } from "../ui/input";
+import { cn } from "@/lib/utils";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { ReservationProps } from "@/types/types";
+import { DatePickerInput } from "../FormInputs/DatePickerInput";
 import {
   Drawer,
   DrawerClose,
@@ -18,8 +18,20 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer"
+} from "@/components/ui/drawer";
 import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { CheckIcon, LocateIcon, Pickaxe } from "lucide-react";
+import { createReservation, getAvailRooms } from "@/actions/rooms";
+import toast, { Toaster } from "react-hot-toast";
+import { IconLocationPin } from "@tabler/icons-react";
     Select,
     SelectContent,
     SelectGroup,
@@ -45,6 +57,26 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 export function BookDrawer() {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ReservationProps>();
+  const router = useRouter(); // Use the Next.js router for redirection
+  const cancelRef = useRef(null); // Reference for the cancel button in AlertDialog
+
+  // State for date, branch selection, and available rooms
+  const [checkIn, setCheckIn] = useState<Date | undefined>();
+  const [checkOut, setCheckOut] = useState<Date | undefined>();
+  const [selectHour, setSelectHour] = useState<string | undefined>();
+  const [selectMinute, setSelectMinute] = useState<string | undefined>();
+  const [selectedHour, setSelectedHour] = useState<string | undefined>();
+  const [selectedMinute, setSelectedMinute] = useState<string | undefined>();
+  const [branch, setBranch] = useState<"North" | "South" | undefined>();
+  const [numberOfRooms, setNumberOfRooms] = useState<number | undefined>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [availableRooms, setAvailableRooms] = useState<any[]>([]);
     const {
         register,
         handleSubmit,
@@ -66,10 +98,18 @@ export function BookDrawer() {
       const [isLoading, setIsLoading] = useState(false);
       const [availablehouses, setAvailablehouses] = useState<any[]>([]);
 
-      // State for controlling the AlertDialog and loader inside it
-      const [isDialogLoading, setIsDialogLoading] = useState(false);
-      const [isDialogOpen, setIsDialogOpen] = useState(false);
+  // State for controlling the AlertDialog and loader inside it
+  const [isDialogLoading, setIsDialogLoading] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  // Fetch available rooms on component mount
+  useEffect(() => {
+    const fetchAvailableRooms = async () => {
+      const result = await getAvailRooms();
+      if (result.status === 200) {
+        setAvailableRooms(result.data ?? []); // Fallback to an empty array if result.data is null
+      }
+    };
        // Fetch available houses on component mount
         useEffect(() => {
             const fetchAvailablehouses = async () => {
@@ -79,10 +119,10 @@ export function BookDrawer() {
             }
             };
 
-            fetchAvailablehouses();
+            fetchAvailableRooms();
         }, []);
 
-         // Submit function inside the AlertDialog action
+  // Submit function inside the AlertDialog action
   const onSubmit = async (data: ReservationProps) => {
     if (!branch) {
       toast.error("Please select a house");
@@ -107,7 +147,7 @@ export function BookDrawer() {
 
       if (result.status === 201) {
         toast.success("Reservation created successfully");
-        <Toaster />
+        <Toaster />;
         reset(); // Reset form after successful submission
         router.push("/");
       } else {
@@ -124,52 +164,24 @@ export function BookDrawer() {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button variant="outline"className="bg-slate-900 text-white" >Reserve</Button>
+        <div className="flex justify-center items-center">
+          <Button variant="outline" className="bg-slate-900 text-white">
+            Get Rental by location
+          </Button>
+          <Button variant="outline" className="bg-slate-900 text-white">
+            <LocateIcon />
+          </Button>
+        </div>
       </DrawerTrigger>
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
-            <DrawerTitle>Reserve</DrawerTitle>
-            <DrawerDescription>book your space</DrawerDescription>
+            <DrawerTitle>Get Rental by location</DrawerTitle>
+            <DrawerDescription>Rent your space</DrawerDescription>
           </DrawerHeader>
-          <div className="p-4 pb-0">
-            <div className="flex items-center justify-center space-x-2">
-            <form className="my-8">
-        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
-          <LabelInputContainer>
-            <DatePickerInput
-                date={checkIn}
-                setDate={setCheckIn}
-                selectedHour={selectHour}
-                setSelectedHour={setSelectHour}
-                selectedMinute={selectMinute}
-                setSelectedMinute={setSelectMinute}
-                title="Check In"
-            />
-          </LabelInputContainer>
-          <LabelInputContainer>
-            <DatePickerInput
-                date={checkOut}
-                setDate={setCheckOut}
-                selectedHour={selectedHour}
-                setSelectedHour={setSelectedHour}
-                selectedMinute={selectedMinute}
-                setSelectedMinute={setSelectedMinute}
-                title="Check Out"
-
-            />
-          </LabelInputContainer>
-        </div>
-        <LabelInputContainer className="mb-4">
-            <div className="flex flex-col">
-            <span className="text-black text-sm">Full Name</span>
-            <Input
-                type="text"
-                placeholder="Enter full name"
-                {...register("fullName", { required: true })}
-                className={`${errors.fullName ? 'border-red-500' : ''}`} // Highlight on error
-            />
-            {errors.fullName && <p className="text-red-500">Full name is required</p>}
+          <div className="flex justify-center items-center p-4 pb-0">
+            <div>
+              <Input placeholder="search location" />
             </div>
         </LabelInputContainer>
         <LabelInputContainer className="mb-8">
@@ -178,27 +190,27 @@ export function BookDrawer() {
             <Input
                 type="number"
                 placeholder="Enter number"
-                onChange={(e) => setNumberOfhouses(Number(e.target.value))}
+                onChange={(e) => setNumberOfRooms(Number(e.target.value))}
             />
             </div>
         </LabelInputContainer>
         <LabelInputContainer>
-        <span className="text-black text-sm">Select house</span>
+        <span className="text-black text-sm">Select Room</span>
             <Select onValueChange={(value) => setBranch(value as "North" | "South")}>
                 <SelectTrigger className="w-[280px]">
-                <SelectValue placeholder="Select a house" />
+                <SelectValue placeholder="Select a Room" />
                 </SelectTrigger>
                 <SelectContent>
                 <SelectGroup>
-                    <SelectLabel>Available houses</SelectLabel>
-                    {availablehouses.length > 0 ? (
-                    availablehouses.map((house) => (
-                        <SelectItem key={house.id} value={house.title}>
-                        {house.title} - {house.category}
+                    <SelectLabel>Available Rooms</SelectLabel>
+                    {availableRooms.length > 0 ? (
+                    availableRooms.map((room) => (
+                        <SelectItem key={room.id} value={room.title}>
+                        {room.title} - {room.category}
                         </SelectItem>
                     ))
                     ) : (
-                    <SelectItem disabled value="no_houses">No houses available</SelectItem>
+                    <SelectItem disabled value="no_rooms">No rooms available</SelectItem>
                     )}
                 </SelectGroup>
                 </SelectContent>
@@ -209,67 +221,57 @@ export function BookDrawer() {
             </div>
           </div>
           <DrawerFooter>
-          <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <AlertDialogTrigger asChild>
-                    <Button variant="outline" className="mt-6">
-                    Reserve
-                    </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                    <AlertDialogTitle>Confirm Reservation</AlertDialogTitle>
-                    <AlertDialogDescription>
+            <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline" className="mt-6">
+                  Search
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Confirm Reservation</AlertDialogTitle>
+                  <AlertDialogDescription>
                     <div className="text-neutral-900 mt-1 relative z-20">
-                    Follow these steps to pay for your house:
-                    <ul className="list-none mt-2">
+                      Follow these steps to pay for your room:
+                      <ul className="list-none mt-2">
                         <Step title="Are you paying with Mpesa or Ecocash?" />
                         <Step title="Mpesa Merchant(12345) / Ecocash Merchant(12345)" />
                         <Step title="Make Payment To Any Convinient Merchant" />
                         <Step title="Take a screenshot" />
                         <Step title="Send it here (56120463) via WhatsApp" />
                         <Step title="All Done!" />
-                    </ul>
+                      </ul>
                     </div>
-                    </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                    <AlertDialogCancel ref={cancelRef}>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleSubmit(onSubmit)}>
-                        {isDialogLoading ? "Processing..." : "Confirm"}
-                    </AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-                </AlertDialog>
-            <DrawerClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DrawerClose>
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+              </AlertDialogContent>
+            </AlertDialog>
           </DrawerFooter>
         </div>
       </DrawerContent>
     </Drawer>
-  )
+  );
 }
 
-
 const LabelInputContainer = ({
-    children,
-    className,
-  }: {
-    children: React.ReactNode;
-    className?: string;
-  }) => {
-    return (
-      <div className={cn("flex flex-col space-y-2 w-full", className)}>
-        {children}
-      </div>
-    );
-  };
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <div className={cn("flex flex-col space-y-2 w-full", className)}>
+      {children}
+    </div>
+  );
+};
 
-  const Step = ({ title }: { title: string }) => {
-    return (
-      <li className="flex gap-2 items-start">
-        <CheckIcon />
-        <p className="text-black">{title}</p>
-      </li>
-    );
-  };
+const Step = ({ title }: { title: string }) => {
+  return (
+    <li className="flex gap-2 items-start">
+      <CheckIcon />
+      <p className="text-black">{title}</p>
+    </li>
+  );
+};

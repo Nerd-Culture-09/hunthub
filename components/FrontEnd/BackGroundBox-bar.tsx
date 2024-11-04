@@ -13,24 +13,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation"; // Import useRouter for redirection
 import { ReservationProps } from "@/types/types";
 import { createReservation, getAvailhouses } from "@/actions/house";
 import { 
   AlertDialog,
-  AlertDialogAction, 
-  AlertDialogCancel, 
-  AlertDialogContent, 
-  AlertDialogDescription, 
-  AlertDialogFooter, 
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle, 
-  AlertDialogTrigger 
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useToaster } from "@/hooks/use-toast";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, LocateIcon } from "lucide-react";
 import SubmitButton from "../FormInputs/SubmitButton";
 import { BookDrawer } from "./fallBackDrawer";
 
@@ -98,7 +98,7 @@ export function BackGroundBoxBar() {
 
       if (result.status === 201) {
         toast.success("Reservation created successfully");
-        <Toaster />
+        <Toaster />;
         reset(); // Reset form after successful submission
         router.push("/");
       } else {
@@ -114,40 +114,40 @@ export function BackGroundBoxBar() {
 
   return (
     <>
-    <div
-      className="relative w-full overflow-hidden bg-slate-900 lg:flex hidden flex-col md:flex-row justify-center items-center "
-      style={{ height: "auto", minHeight: "2.5cm" }}
-    >
-      <div className="absolute inset-0 w-full bg-slate-900 z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-      <form
-        className="relative z-30 flex flex-col md:flex-row justify-start items-center gap-y-4 md:gap-y-0 gap-x-4 px-4 py-2 md:py-0"
-        onSubmit={handleSubmit(onSubmit)} // Use handleSubmit to handle form submission
+      <div
+        className="relative w-full overflow-hidden bg-slate-900 lg:flex hidden flex-col md:flex-row justify-center items-center "
+        style={{ height: "auto", minHeight: "2.5cm" }}
       >
-        <div className="flex flex-col items-center">
-          <span className="text-white text-sm mb-1">Check In</span>
-          <DatePickerInput
-            date={checkIn}
-            setDate={setCheckIn}
-            selectedHour={selectHour}
-            setSelectedHour={setSelectHour}
-            selectedMinute={selectMinute}
-            setSelectedMinute={setSelectMinute}
-            title=""
-          />
-        </div>
+        <div className="absolute inset-0 w-full bg-slate-900 z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+        <form
+          className="relative z-30 flex flex-col md:flex-row justify-start items-center gap-y-4 md:gap-y-0 gap-x-4 px-4 py-2 md:py-0"
+          onSubmit={handleSubmit(onSubmit)} // Use handleSubmit to handle form submission
+        >
+          <div className="flex flex-col items-center">
+            <span className="text-white text-sm mb-1">Check In</span>
+            <DatePickerInput
+              date={checkIn}
+              setDate={setCheckIn}
+              selectedHour={selectHour}
+              setSelectedHour={setSelectHour}
+              selectedMinute={selectMinute}
+              setSelectedMinute={setSelectMinute}
+              title=""
+            />
+          </div>
 
-        <div className="flex flex-col items-center">
-          <span className="text-white text-sm mb-1">Check Out</span>
-          <DatePickerInput
-            date={checkOut}
-            setDate={setCheckOut}
-            selectedHour={selectedHour}
-            setSelectedHour={setSelectedHour}
-            selectedMinute={selectedMinute}
-            setSelectedMinute={setSelectedMinute}
-            title=""
-          />
-        </div>
+          <div className="flex flex-col items-center">
+            <span className="text-white text-sm mb-1">Check Out</span>
+            <DatePickerInput
+              date={checkOut}
+              setDate={setCheckOut}
+              selectedHour={selectedHour}
+              setSelectedHour={setSelectedHour}
+              selectedMinute={selectedMinute}
+              setSelectedMinute={setSelectedMinute}
+              title=""
+            />
+          </div>
 
         <div className="flex flex-col items-center">
           <span className="text-white text-sm mb-1">Select house</span>
@@ -172,16 +172,18 @@ export function BackGroundBoxBar() {
           </Select>
         </div>
 
-        <div className="flex flex-col">
-          <span className="text-white text-sm mb-1">Full Name</span>
-          <Input
-            type="text"
-            placeholder="Enter full name"
-            {...register("fullName", { required: true })}
-            className={`${errors.fullName ? 'border-red-500' : ''}`} // Highlight on error
-          />
-          {errors.fullName && <p className="text-red-500">Full name is required</p>}
-        </div>
+          <div className="flex flex-col">
+            <span className="text-white text-sm mb-1">Full Name</span>
+            <Input
+              type="text"
+              placeholder="Enter full name"
+              {...register("fullName", { required: true })}
+              className={`${errors.fullName ? "border-red-500" : ""}`} // Highlight on error
+            />
+            {errors.fullName && (
+              <p className="text-red-500">Full name is required</p>
+            )}
+          </div>
 
         <div className="flex flex-col">
           <span className="text-white text-sm mb-1">Number of People</span>
@@ -191,6 +193,14 @@ export function BackGroundBoxBar() {
             onChange={(e) => setNumberOfhouses(Number(e.target.value))}
           />
         </div>
+          <div className="flex flex-col">
+            <span className="text-white text-sm mb-1">Number of People</span>
+            <Input
+              type="number"
+              placeholder="Enter number"
+              onChange={(e) => setNumberOfRooms(Number(e.target.value))}
+            />
+          </div>
 
         {/* AlertDialog for reservation */}
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

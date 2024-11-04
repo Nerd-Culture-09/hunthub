@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useState } from 'react';
+import Link from "next/link";
+import { useState } from "react";
 
 import SpecialOffer from './Special-Offers';
 import Testimonial from './Testimonials';
@@ -21,13 +21,10 @@ export default function Hero() {
         <BackGroundBoxBar />
         <AvailablehouseCards />
         <Testimonial />
-        <Team />
         <div
           aria-hidden="true"
           className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-        >
-          
-        </div>
+        ></div>
       </div>
     </div>
   );
