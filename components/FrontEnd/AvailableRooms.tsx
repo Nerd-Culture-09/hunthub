@@ -56,10 +56,10 @@ export default function AvailableRoomCards() {
 
   return (
     <>
-      <div className="flex justify-between items-center">
-        <h1 className="mt-8 scroll-m-20 text-3xl ml-5 font-semibold tracking-tight">
-          Available Rooms
-        </h1>
+      <div className="flex justify-center items-center">
+        <h5 className="mt-8 scroll-m-20 text-xl text-center ml-5 font-semibold tracking-tight">
+          Available Rentals
+        </h5>
         <div className="mt-9 mr-5">
           <Link href="all-rooms">
             <button className="px-6 py-2 text-blue-500 rounded-lg font-bold transform hover:-translate-y-1 transition duration-400">
@@ -70,12 +70,20 @@ export default function AvailableRoomCards() {
       </div>
       <div className="pt-6 py-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
         {rooms.map((room) => (
-          <Card key={room.id} className="w-[310px] mx-auto">
+          <Card key={room.id} className="w-[350px] mx-auto">
             <CardHeader>
-              <CardTitle className="text-xl font-semibold">{room.title}</CardTitle>
-              <CardDescription className="text-gray-500">{room.description}</CardDescription>
-              <p className={`text-sm font-semibold ${room.isAvailable ? 'text-green-500' : 'text-red-500'}`}>
-                {room.isAvailable ? 'Available' : 'Booked'}
+              <CardTitle className="text-xl font-semibold">
+                {room.title}
+              </CardTitle>
+              <CardDescription className="text-gray-500">
+                {room.description}
+              </CardDescription>
+              <p
+                className={`text-sm font-semibold ${
+                  room.isAvailable ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {room.isAvailable ? "Available" : "Booked"}
               </p>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
@@ -112,13 +120,17 @@ export default function AvailableRoomCards() {
               <div className="pt-10 flex justify-between">
                 <Button
                   onClick={() => handleReserveClick(room)}
-                  className={`py-2 px-4 rounded-lg ${isLoading ? "bg-gray-500" : "bg-blue-600"} text-white`}
+                  className={`py-2 px-4 rounded-lg ${
+                    isLoading ? "bg-gray-500" : "bg-blue-600"
+                  } text-white`}
                   disabled={isLoading}
                 >
                   {isLoading ? "please wait..." : "Reserve"}
                 </Button>
                 <p className="border border-green-500 rounded-lg w-16">
-                  <span className="flex justify-center pt-2 font-extrabold">M{room.price}</span>
+                  <span className="flex justify-center pt-2 font-extrabold">
+                    M{room.price}
+                  </span>
                 </p>
               </div>
             </CardContent>
@@ -127,26 +139,25 @@ export default function AvailableRoomCards() {
       </div>
 
       {isModalOpen && selectedRoom && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div className="relative bg-white p-6 rounded-lg w-full max-w-xl">
-      <Button 
-        className="absolute top-7 right-1 text-sm bg-transparent" 
-        onClick={closeModal}
-      >
-        <FaTimes className="text-xl text-black" />
-      </Button>
-      <DummyContent
-        category={selectedRoom.category}
-        title={selectedRoom.title}
-        images={[selectedRoom.image]}
-        price={selectedRoom.price}
-        amenities={selectedRoom.amenities}
-        roomId={selectedRoom.id}
-      />
-    </div>
-  </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="relative bg-white p-6 rounded-lg w-full max-w-xl">
+            <Button
+              className="absolute top-7 right-1 text-sm bg-transparent"
+              onClick={closeModal}
+            >
+              <FaTimes className="text-xl text-black" />
+            </Button>
+            <DummyContent
+              category={selectedRoom.category}
+              title={selectedRoom.title}
+              images={[selectedRoom.image]}
+              price={selectedRoom.price}
+              amenities={selectedRoom.amenities}
+              roomId={selectedRoom.id}
+            />
+          </div>
+        </div>
       )}
-
     </>
   );
 }

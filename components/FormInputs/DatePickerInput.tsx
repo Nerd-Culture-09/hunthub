@@ -76,10 +76,12 @@ export function DatePickerInput({
               !date && "text-muted-foreground"
             )}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
+            {/* <CalendarIcon className="mr-2 h-4 w-4" /> */}
             {date
-              ? `${format(date, "PPP")} at ${selectedHour || "HH"}:${selectedMinute || "MM"}`
-              : "Pick a date and time"}
+              ? `${format(date, "PPP")} at ${selectedHour || "HH"}:${
+                  selectedMinute || "MM"
+                }`
+              : "Get House by you location"}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
