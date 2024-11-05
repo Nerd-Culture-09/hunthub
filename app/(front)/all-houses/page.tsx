@@ -1,5 +1,5 @@
-import Allhouses from '@/components/FrontEnd/Allhouses';
 import React from 'react'
+import Allhouses from '@/components/FrontEnd/AllRooms';
 
 function page() {
   return (
