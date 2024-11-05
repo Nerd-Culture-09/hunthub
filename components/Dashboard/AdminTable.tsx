@@ -88,10 +88,10 @@ export function Admin() {
                           Payment Method
                         </TableHead>
                         <TableHead className="hidden md:table-cell">
-                          Room Title
+                          house Title
                         </TableHead>
                         <TableHead className="hidden md:table-cell">
-                          Room Category
+                          house Category
                         </TableHead>
                         <TableHead className="hidden md:table-cell">
                           Check-In Date & Time
@@ -112,10 +112,10 @@ export function Admin() {
                             {booking.paymentMethod}
                           </TableCell>
                           <TableCell className="hidden md:table-cell">
-                            {booking.room.title}
+                            {booking.house.title}
                           </TableCell>
                           <TableCell className="hidden md:table-cell">
-                            {booking.room.category}
+                            {booking.house.category}
                           </TableCell>
                           <TableCell className="hidden md:table-cell">
                             {formatDate(booking.checkInDate)}

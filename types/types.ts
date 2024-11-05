@@ -20,7 +20,7 @@ export type ReviewProps={
     email: string;
 };
 
-export type RoomProps = {
+export type houseProps = {
     title: string;
     description: string;
     imageUrl: string;
@@ -37,8 +37,8 @@ export type BookingProps = {
     checkInDate: Date; 
     checkOutDate: Date;
     bookingFor: string;
-    roomId: string;
-    roomTitle: string;
+    houseId: string;
+    houseTitle: string;
 };
 
 export type ReservationProps = {
@@ -47,5 +47,5 @@ export type ReservationProps = {
     branch: string;
     checkIn: Date; 
     checkOut: Date;
-    numberOfRooms: any;
+    numberOfhouses: any;
 };

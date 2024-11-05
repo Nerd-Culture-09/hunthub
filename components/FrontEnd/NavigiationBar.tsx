@@ -7,12 +7,12 @@ import { useSession } from "next-auth/react"; // Import useSession for authentic
 const NavigationBar = () => {
   const [state, setState] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  
+
   const { data: session, status } = useSession(); // Retrieve session data
 
   const navigation = [
     { title: "Home", path: "/" },
-    { title: "Rooms", path: "/all-rooms" },
+    { title: "houses", path: "/all-houses" },
     { title: "Pricing", path: "/pricing" },
     { title: "About", path: "/about" },
     { title: "Contact", path: "/contact" },
@@ -36,18 +36,16 @@ const NavigationBar = () => {
 
   return (
     <nav
-      className={`w-full h-[70px] fixed top-0 z-50 transition-colors duration-300 ${
-        scrolled ? "shadow-lg" : "shadow-lg"
-      }`}
+      className={`w-full h-[70px] fixed top-0 z-50 transition-colors duration-300`}
     >
       <div className="items-center bg-white px-4 w-full mx-auto md:flex md:px-8">
         <div className="flex items-center justify-between md:py-5 md:block">
-          <div className="lg:-mt-4">
+          <div className="lg:-mt-4 pb-2 pt-1">
             <a href="/">
               <img
-                src="/logo.png"
-                width={120}
-                height={50}
+                src="/artibox.png"
+                width={50}
+                height={10}
                 alt="The Valley logo"
               />
             </a>
@@ -95,12 +93,44 @@ const NavigationBar = () => {
           }`}
         >
           <ul className="justify-center items-center space-y-8 md:flex md:space-x-6 md:space-y-0">
-            {navigation.map((item, idx) => (
-              <li key={idx} className="text-gray-600 hover:text-indigo-600">
-                <Link href={item.path}>{item.title}</Link>
-              </li>
-            ))}
-
+            <div className="mt-12">
+              <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <li className="bg-gray-100 p-4 rounded-xl">
+                  <figure>
+                    <div className="flex items-center gap-x-4">
+                      <div>
+                        <span className="block text-gray-800 font-semibold">
+                          We can email you as soon as the house you're looking
+                          for becomes available, if you are registered
+                        </span>
+                        <span className="flex gap-2 text-gray-600 text-sm mt-0.5">
+                          <Link href="/register">
+                            <Button
+                              className="border border-blue-500 text-gray-600"
+                              variant="ghost"
+                            >
+                              Register
+                            </Button>
+                          </Link>
+                          {status === "unauthenticated" && (
+                            <>
+                              <Link href="/login">
+                                <Button className="bg-blue-500 lg:w-[90px]">
+                                  Login
+                                </Button>
+                              </Link>
+                            </>
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                    <blockquote>
+                      <p className="mt-6 text-gray-700"></p>
+                    </blockquote>
+                  </figure>
+                </li>
+              </ul>
+            </div>
             {/* Show Dashboard link only if user is logged in and is admin */}
             {session?.user?.role === "ADMIN" && (
               <li className="text-gray-600 hover:text-indigo-600">
@@ -110,21 +140,6 @@ const NavigationBar = () => {
 
             <div className="flex flex-col gap-y-4 gap-x-6 md:flex-row md:space-y-0">
               {/* Show login and register links only if the user is not logged in */}
-              {status === "unauthenticated" && (
-                <>
-                  <Link href="/login">
-                    <Button className="bg-blue-500 lg:w-[90px]">Login</Button>
-                  </Link>
-                  <Link href="/register">
-                    <Button
-                      className="border border-blue-500 text-gray-600"
-                      variant="ghost"
-                    >
-                      Sign Up
-                    </Button>
-                  </Link>
-                </>
-              )}
             </div>
           </ul>
         </div>

@@ -32,7 +32,7 @@ const Career = () => {
                   Housekeeping Staff
                 </h3>
                 <p className="text-gray-600 mt-2">
-                  Our Housekeeping Staff is responsible for maintaining cleanliness and orderliness in guest rooms and public areas to ensure a comfortable stay for our guests.
+                  Our Housekeeping Staff is responsible for maintaining cleanliness and orderliness in guest houses and public areas to ensure a comfortable stay for our guests.
                 </p>
                 <a href="#" className="text-indigo-600 hover:underline mt-2 inline-block">Learn more</a>
               </li>

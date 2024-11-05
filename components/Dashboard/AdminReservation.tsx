@@ -85,7 +85,7 @@ export function AdminReservation() {
                         <TableHead>Full Names</TableHead>
                         <TableHead>Number Of People</TableHead>
                         <TableHead className="hidden md:table-cell">
-                          Room
+                          house
                         </TableHead>
                         <TableHead className="hidden md:table-cell">
                           Check-In Date & Time
@@ -101,7 +101,7 @@ export function AdminReservation() {
                           <TableCell className="font-medium">
                             {reservation.fullName}
                           </TableCell>
-                          <TableCell>{reservation.numberOfRooms}</TableCell>
+                          <TableCell>{reservation.numberOfhouses}</TableCell>
                           <TableCell className="hidden md:table-cell">
                             {reservation.branch}
                           </TableCell>

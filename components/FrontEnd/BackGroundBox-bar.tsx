@@ -13,24 +13,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation"; // Import useRouter for redirection
 import { ReservationProps } from "@/types/types";
-import { createReservation, getAvailRooms } from "@/actions/rooms";
+import { createReservation, getAvailhouses } from "@/actions/house";
 import { 
   AlertDialog,
-  AlertDialogAction, 
-  AlertDialogCancel, 
-  AlertDialogContent, 
-  AlertDialogDescription, 
-  AlertDialogFooter, 
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle, 
-  AlertDialogTrigger 
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useToaster } from "@/hooks/use-toast";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, LocateIcon } from "lucide-react";
 import SubmitButton from "../FormInputs/SubmitButton";
 import { BookDrawer } from "./fallBackDrawer";
 
@@ -45,7 +45,7 @@ export function BackGroundBoxBar() {
   const router = useRouter(); // Use the Next.js router for redirection
   const cancelRef = useRef(null); // Reference for the cancel button in AlertDialog
 
-  // State for date, branch selection, and available rooms
+  // State for date, branch selection, and available houses
   const [checkIn, setCheckIn] = useState<Date | undefined>();
   const [checkOut, setCheckOut] = useState<Date | undefined>();
   const [selectHour, setSelectHour] = useState<string | undefined>();
@@ -53,30 +53,30 @@ export function BackGroundBoxBar() {
   const [selectedHour, setSelectedHour] = useState<string | undefined>();
   const [selectedMinute, setSelectedMinute] = useState<string | undefined>();
   const [branch, setBranch] = useState<"North" | "South" | undefined>();
-  const [numberOfRooms, setNumberOfRooms] = useState<number | undefined>();
+  const [numberOfhouses, setNumberOfhouses] = useState<number | undefined>();
   const [isLoading, setIsLoading] = useState(false);
-  const [availableRooms, setAvailableRooms] = useState<any[]>([]); // Updated to handle available rooms
+  const [availablehouses, setAvailablehouses] = useState<any[]>([]); // Updated to handle available houses
 
   // State for controlling the AlertDialog and loader inside it
   const [isDialogLoading, setIsDialogLoading] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  // Fetch available rooms on component mount
+  // Fetch available houses on component mount
   useEffect(() => {
-    const fetchAvailableRooms = async () => {
-      const result = await getAvailRooms();
+    const fetchAvailablehouses = async () => {
+      const result = await getAvailhouses();
       if (result.status === 200) {
-        setAvailableRooms(result.data ?? []); // Fallback to an empty array if result.data is null
+        setAvailablehouses(result.data ?? []); // Fallback to an empty array if result.data is null
       }
     };
 
-    fetchAvailableRooms();
+    fetchAvailablehouses();
   }, []);
 
   // Submit function inside the AlertDialog action
   const onSubmit = async (data: ReservationProps) => {
     if (!branch) {
-      toast.error("Please select a room");
+      toast.error("Please select a house");
       return;
     }
     if (!checkIn || !checkOut) {
@@ -91,14 +91,14 @@ export function BackGroundBoxBar() {
         checkIn,
         checkOut,
         branch, // Now guaranteed to be either "North" or "South"
-        numberOfRooms: Number(numberOfRooms),
+        numberOfhouses: Number(numberOfhouses),
       };
 
       const result = await createReservation(reservationData);
 
       if (result.status === 201) {
         toast.success("Reservation created successfully");
-        <Toaster />
+        <Toaster />;
         reset(); // Reset form after successful submission
         router.push("/");
       } else {
@@ -114,83 +114,93 @@ export function BackGroundBoxBar() {
 
   return (
     <>
-    <div
-      className="relative w-full overflow-hidden bg-slate-900 lg:flex hidden flex-col md:flex-row justify-center items-center "
-      style={{ height: "auto", minHeight: "2.5cm" }}
-    >
-      <div className="absolute inset-0 w-full bg-slate-900 z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-      <form
-        className="relative z-30 flex flex-col md:flex-row justify-start items-center gap-y-4 md:gap-y-0 gap-x-4 px-4 py-2 md:py-0"
-        onSubmit={handleSubmit(onSubmit)} // Use handleSubmit to handle form submission
+      <div
+        className="relative w-full overflow-hidden bg-slate-900 lg:flex hidden flex-col md:flex-row justify-center items-center "
+        style={{ height: "auto", minHeight: "2.5cm" }}
       >
-        <div className="flex flex-col items-center">
-          <span className="text-white text-sm mb-1">Check In</span>
-          <DatePickerInput
-            date={checkIn}
-            setDate={setCheckIn}
-            selectedHour={selectHour}
-            setSelectedHour={setSelectHour}
-            selectedMinute={selectMinute}
-            setSelectedMinute={setSelectMinute}
-            title=""
-          />
-        </div>
+        <div className="absolute inset-0 w-full bg-slate-900 z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+        <form
+          className="relative z-30 flex flex-col md:flex-row justify-start items-center gap-y-4 md:gap-y-0 gap-x-4 px-4 py-2 md:py-0"
+          onSubmit={handleSubmit(onSubmit)} // Use handleSubmit to handle form submission
+        >
+          <div className="flex flex-col items-center">
+            <span className="text-white text-sm mb-1">Check In</span>
+            <DatePickerInput
+              date={checkIn}
+              setDate={setCheckIn}
+              selectedHour={selectHour}
+              setSelectedHour={setSelectHour}
+              selectedMinute={selectMinute}
+              setSelectedMinute={setSelectMinute}
+              title=""
+            />
+          </div>
+
+          <div className="flex flex-col items-center">
+            <span className="text-white text-sm mb-1">Check Out</span>
+            <DatePickerInput
+              date={checkOut}
+              setDate={setCheckOut}
+              selectedHour={selectedHour}
+              setSelectedHour={setSelectedHour}
+              selectedMinute={selectedMinute}
+              setSelectedMinute={setSelectedMinute}
+              title=""
+            />
+          </div>
 
         <div className="flex flex-col items-center">
-          <span className="text-white text-sm mb-1">Check Out</span>
-          <DatePickerInput
-            date={checkOut}
-            setDate={setCheckOut}
-            selectedHour={selectedHour}
-            setSelectedHour={setSelectedHour}
-            selectedMinute={selectedMinute}
-            setSelectedMinute={setSelectedMinute}
-            title=""
-          />
-        </div>
-
-        <div className="flex flex-col items-center">
-          <span className="text-white text-sm mb-1">Select Room</span>
+          <span className="text-white text-sm mb-1">Select house</span>
           <Select onValueChange={(value) => setBranch(value as "North" | "South")}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select a Room" />
+              <SelectValue placeholder="Select a house" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Available Rooms</SelectLabel>
-                {availableRooms.length > 0 ? (
-                  availableRooms.map((room) => (
-                    <SelectItem key={room.id} value={room.title}>
-                      {room.title} - {room.category}
+                <SelectLabel>Available houses</SelectLabel>
+                {availablehouses.length > 0 ? (
+                  availablehouses.map((house) => (
+                    <SelectItem key={house.id} value={house.title}>
+                      {house.title} - {house.category}
                     </SelectItem>
                   ))
                 ) : (
-                  <SelectItem disabled value="no_rooms">No rooms available</SelectItem>
+                  <SelectItem disabled value="no_houses">No houses available</SelectItem>
                 )}
               </SelectGroup>
             </SelectContent>
           </Select>
         </div>
 
-        <div className="flex flex-col">
-          <span className="text-white text-sm mb-1">Full Name</span>
-          <Input
-            type="text"
-            placeholder="Enter full name"
-            {...register("fullName", { required: true })}
-            className={`${errors.fullName ? 'border-red-500' : ''}`} // Highlight on error
-          />
-          {errors.fullName && <p className="text-red-500">Full name is required</p>}
-        </div>
+          <div className="flex flex-col">
+            <span className="text-white text-sm mb-1">Full Name</span>
+            <Input
+              type="text"
+              placeholder="Enter full name"
+              {...register("fullName", { required: true })}
+              className={`${errors.fullName ? "border-red-500" : ""}`} // Highlight on error
+            />
+            {errors.fullName && (
+              <p className="text-red-500">Full name is required</p>
+            )}
+          </div>
 
         <div className="flex flex-col">
           <span className="text-white text-sm mb-1">Number of People</span>
           <Input
             type="number"
             placeholder="Enter number"
-            onChange={(e) => setNumberOfRooms(Number(e.target.value))}
+            onChange={(e) => setNumberOfhouses(Number(e.target.value))}
           />
         </div>
+          <div className="flex flex-col">
+            <span className="text-white text-sm mb-1">Number of People</span>
+            <Input
+              type="number"
+              placeholder="Enter number"
+              onChange={(e) => setNumberOfRooms(Number(e.target.value))}
+            />
+          </div>
 
         {/* AlertDialog for reservation */}
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -204,7 +214,7 @@ export function BackGroundBoxBar() {
               <AlertDialogTitle>Confirm Reservation</AlertDialogTitle>
               <AlertDialogDescription>
               <div className="text-neutral-900 mt-1 relative z-20">
-              Follow these steps to pay for your room:
+              Follow these steps to pay for your house:
               <ul className="list-none mt-2">
                 <Step title="Are you paying with Mpesa or Ecocash?" />
                 <Step title="Mpesa Merchant(12345) / Ecocash Merchant(12345)" />

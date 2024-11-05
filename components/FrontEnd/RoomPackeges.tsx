@@ -18,7 +18,7 @@ export function SelectDemo() {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Room Packages</SelectLabel>
+          <SelectLabel>house Packages</SelectLabel>
           <SelectItem value="apple">M250 / night STANDARD</SelectItem>
           <SelectItem value="banana">M350 / night </SelectItem>
           <SelectItem value="blueberry">M100 / 2 hours STANDARD</SelectItem>

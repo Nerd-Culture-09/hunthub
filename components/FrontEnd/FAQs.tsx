@@ -5,7 +5,7 @@ const FAQs = () => {
     const faqsList = [
         {
             q: "What amenities are provided at The Valley Guest House?",
-            a: "At The Valley Guest House, we offer a range of amenities including free Wi-Fi, comfortable bedding, a complimentary breakfast, and access to a garden area. Each room is equipped with a private bathroom and basic toiletries."
+            a: "At The Valley Guest House, we offer a range of amenities including free Wi-Fi, comfortable bedding, a complimentary breakfast, and access to a garden area. Each house is equipped with a private bathhouse and basic toiletries."
         },
         {
             q: "What is the check-in and check-out time?",
@@ -16,8 +16,8 @@ const FAQs = () => {
             a: "Yes, we offer free on-site parking for our guests. Please let us know if you require a parking spot when making your reservation."
         },
         {
-            q: "Do you offer room service?",
-            a: "Currently, we do not offer room service. However, there are several local restaurants and cafes nearby that we can recommend."
+            q: "Do you offer house service?",
+            a: "Currently, we do not offer house service. However, there are several local restaurants and cafes nearby that we can recommend."
         },
         {
             q: "Are pets allowed at The Valley Guest House?",

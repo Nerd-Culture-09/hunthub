@@ -6,7 +6,7 @@ import { prismaClient } from "@/lib/db";
 export async function createBooking(formData: any) {
   console.log("Booking Form Data:", formData); // Debugging line
   const {
-    roomId,
+    houseId,
     checkInDate,
     checkOutDate,
     fullName,
@@ -16,34 +16,34 @@ export async function createBooking(formData: any) {
     paymentMethod,
   } = formData;
 
-  // Validate roomId
-  if (!roomId) {
+  // Validate houseId
+  if (!houseId) {
     return {
       data: null,
       status: 400,
-      error: "Invalid or missing roomId",
+      error: "Invalid or missing houseId",
     };
   }
 
   try {
-    // Fetch the room to get the title
-    const room = await prismaClient.room.findUnique({
-      where: { id: roomId },
-      select: { title: true }, // Only select the room title
+    // Fetch the house to get the title
+    const house = await prismaClient.house.findUnique({
+      where: { id: houseId },
+      select: { title: true }, // Only select the house title
     });
 
-    if (!room) {
+    if (!house) {
       return {
         data: null,
         status: 404,
-        error: "Room not found",
+        error: "house not found",
       };
     }
 
     // Create a new booking in the database
     const newBooking = await prismaClient.booking.create({
       data: {
-        roomId, // Ensure roomId is provided
+        houseId, // Ensure houseId is provided
         checkInDate: new Date(checkInDate), // Ensure dates are in correct format
         checkOutDate: new Date(checkOutDate),
         fullName,
@@ -51,7 +51,7 @@ export async function createBooking(formData: any) {
         phoneNumber,
         bookingFor,
         paymentMethod,
-        roomTitle: room.title, // Add the room title to the booking
+        houseTitle: house.title, // Add the house title to the booking
       },
     });
 
@@ -84,7 +84,7 @@ export async function getFilteredBookings() {
         paymentMethod: true,
         checkInDate: true,
         checkOutDate: true,
-        room: {
+        house: {
           select: {
             title: true,
             category: true,
@@ -118,7 +118,7 @@ export async function getFilteredReservations() {
         fullName: true,
         checkIn: true,
         checkOut: true,
-        numberOfRooms: true,
+        numberOfhouses: true,
         branch: true,
       },
       orderBy: {

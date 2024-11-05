@@ -35,8 +35,8 @@ model User {
 
 model Booking {
   id              String   @id @default(cuid()) @map("_id")
-  roomId          String   @db.ObjectId
-  roomTitle       String?
+  houseId          String   @db.ObjectId
+  houseTitle       String?
   checkInDate     DateTime
   checkOutDate    DateTime
   fullName        String
@@ -47,11 +47,11 @@ model Booking {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  room            Room     @relation(fields: [roomId], references: [id])
+  house            house     @relation(fields: [houseId], references: [id])
 }
 
 
-model Room {
+model house {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
@@ -87,7 +87,7 @@ model Reservation {
   checkIn        DateTime
   checkOut       DateTime
   branch         String
-  numberOfRooms  Int
+  numberOfhouses  Int
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }

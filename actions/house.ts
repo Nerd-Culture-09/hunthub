@@ -1,28 +1,28 @@
 "use server"
 
 import { prismaClient } from "@/lib/db";
-import { ReservationProps, RoomProps } from "@/types/types";
+import { ReservationProps, houseProps } from "@/types/types";
 import { revalidatePath } from "next/cache";
 
-export async function createRoom(data: RoomProps) {
+export async function createhouse(data: houseProps) {
     try {
-      console.log('Data received by createRoom:', data); // Log incoming data
+      console.log('Data received by createhouse:', data); // Log incoming data
       
-      // Check if room with the same title already exists
-      const existingRoom = await prismaClient.room.findFirst({
+      // Check if house with the same title already exists
+      const existinghouse = await prismaClient.house.findFirst({
         where: {
           title: data.title
         },
       });
   
-      console.log('Existing room found:', existingRoom); // Log if room already exists
+      console.log('Existing house found:', existinghouse); // Log if house already exists
   
-      if (existingRoom) {
-        console.log('Room already exists with this title:', data.title); // Log duplicate room error
+      if (existinghouse) {
+        console.log('house already exists with this title:', data.title); // Log duplicate house error
         return {
           data: null,
           status: 409,
-          error: "Room already exists with this title"
+          error: "house already exists with this title"
         };
       }
       // Convert amenities if necessary
@@ -32,8 +32,8 @@ export async function createRoom(data: RoomProps) {
   
       console.log('Formatted amenities:', amenities); // Log formatted amenities
   
-      // Create new room in the database
-      const newRoom = await prismaClient.room.create({
+      // Create new house in the database
+      const newhouse = await prismaClient.house.create({
         data: {
           title: data.title,
           description: data.description,
@@ -44,30 +44,30 @@ export async function createRoom(data: RoomProps) {
         },
       });
   
-      console.log('New room created:', newRoom);
+      console.log('New house created:', newhouse);
   
       return {
-        data: newRoom,
+        data: newhouse,
         status: 201,
         error: null,
       };
     } catch (error) {
-      console.error('Error creating room:', error);
+      console.error('Error creating house:', error);
   
       return {
         data: null,
         status: 501,
-        error: "Room not created",
+        error: "house not created",
       };
     }
   }
 
-// actions/rooms.ts
-export async function getRoomsNorth() {
+// actions/houses.ts
+export async function gethousesNorth() {
   try {
-    const rooms = await prismaClient.room.findMany({
+    const houses = await prismaClient.house.findMany({
       where: {
-        category: 'NORTH', // Filter rooms by the 'NORTH' category
+        category: 'NORTH', // Filter houses by the 'NORTH' category
       },
       orderBy: {
         createdAt: 'desc',
@@ -75,7 +75,7 @@ export async function getRoomsNorth() {
     });
 
     return {
-      data: rooms,
+      data: houses,
       status: 200,
       error: null,
     };
@@ -90,9 +90,9 @@ export async function getRoomsNorth() {
 }
 
 
-export async function getRoomsSouth() {
+export async function gethousesSouth() {
     try {
-        const rooms = await prismaClient.room.findMany({
+        const houses = await prismaClient.house.findMany({
             where: {
                 category: 'SOUTH',
             },
@@ -102,7 +102,7 @@ export async function getRoomsSouth() {
         });
 
         return {
-            data: rooms,
+            data: houses,
             status: 200,
             error: null,
         };
@@ -116,16 +116,16 @@ export async function getRoomsSouth() {
     }
 }
 
-export async function updateRoomAvailability(id: string, isAvailable: boolean) {
+export async function updatehouseAvailability(id: string, isAvailable: boolean) {
   try {
-    const updatedRoom = await prismaClient.room.update({
+    const updatedhouse = await prismaClient.house.update({
       where: { id },
       data: { isAvailable },
     });
 
-    console.log(updatedRoom);
+    console.log(updatedhouse);
     return {
-      data: updatedRoom,
+      data: updatedhouse,
       status: 200,
       error: null,
     };
@@ -139,16 +139,16 @@ export async function updateRoomAvailability(id: string, isAvailable: boolean) {
   }
 }
 
-export async function getAllRooms() {
+export async function getAllhouses() {
   try {
-    const rooms = await prismaClient.room.findMany({
+    const houses = await prismaClient.house.findMany({
       orderBy: {
         createdAt: 'desc',
       },
     });
 
     return {
-      data: rooms,
+      data: houses,
       status: 200,
       error: null,
     };
@@ -162,11 +162,11 @@ export async function getAllRooms() {
   }
 }
 
-export async function getAvailRooms() {
+export async function getAvailhouses() {
   try {
-    const rooms = await prismaClient.room.findMany({
+    const houses = await prismaClient.house.findMany({
       where: {
-        isAvailable: true,  // Only fetch rooms where isAvailable is true
+        isAvailable: true,  // Only fetch houses where isAvailable is true
       },
       orderBy: {
         createdAt: 'desc',
@@ -174,7 +174,7 @@ export async function getAvailRooms() {
     });
 
     return {
-      data: rooms,
+      data: houses,
       status: 200,
       error: null,
     };
@@ -219,7 +219,7 @@ export async function createReservation(data: ReservationProps) {
                 checkIn: data.checkIn,
                 checkOut: data.checkOut,
                 branch: data.branch,
-                numberOfRooms: parseInt(data.numberOfRooms, 10), // Convert numberOfRooms to integer
+                numberOfhouses: parseInt(data.numberOfhouses, 10), // Convert numberOfhouses to integer
             },
         });
 
@@ -241,10 +241,10 @@ export async function createReservation(data: ReservationProps) {
     }
 }
 
-export async function deleteRoom(id: string) {
+export async function deletehouse(id: string) {
   try {
       // Delete service with the specified ID from the database
-      await prismaClient.room.delete({
+      await prismaClient.house.delete({
          where:{
               id,
          },

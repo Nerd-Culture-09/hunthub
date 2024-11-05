@@ -1,38 +1,38 @@
 import React from 'react';
 import { TypewriterEffectSmoothDemo } from './Typewriter';
-import SouthRoomCards from './SouthRoomCards';
-import NorthRoomCards from './NorthRoomCards';
+import SouthhouseCards from './SouthhouseCards';
+import NorthhouseCards from './NorthhouseCards';
 
-function AllRooms()
+function Allhouses()
 {
-    const room1Imgs = [
-        "/valley_south_room1_bedroom.jpeg",
-        "/bedroom_front_display.jpg",
-        "/valley_south_room1_bathroom.jpeg",
+    const house1Imgs = [
+        "/valley_south_house1_bedhouse.jpeg",
+        "/bedhouse_front_display.jpg",
+        "/valley_south_house1_bathhouse.jpeg",
         "/valley_south_outside_night.jpeg",
         "/valley_south_town_view.jpeg",
       ];
       
-      const room2Imgs = [
-        "/valley_south_room2_bedroom.jpeg",
-        "/valley_south_room2_shower.jpeg",
-        "/bedroom_front_display3.jpg",
+      const house2Imgs = [
+        "/valley_south_house2_bedhouse.jpeg",
+        "/valley_south_house2_shower.jpeg",
+        "/bedhouse_front_display3.jpg",
         "/valley_south_outside_night.jpeg",
         "/valley_south_town_view.jpeg",
       ];
       
-      const room3Imgs = [
-        "/valley_south_room3_bedroom.jpeg",
-        "/valley_south_room3_bathroom.jpeg",
-        "/bedroom_front_display3.jpg",
+      const house3Imgs = [
+        "/valley_south_house3_bedhouse.jpeg",
+        "/valley_south_house3_bathhouse.jpeg",
+        "/bedhouse_front_display3.jpg",
         "/valley_south_outside_night.jpeg",
         "/valley_south_town_view.jpeg",
       ];
       
-      const room4Imgs = [
-        "/bedroom_display2.jpeg",
-        "/valley_south_room2_restroom.jpeg",
-        "/valley_south_room2_shower.jpeg",
+      const house4Imgs = [
+        "/bedhouse_display2.jpeg",
+        "/valley_south_house2_resthouse.jpeg",
+        "/valley_south_house2_shower.jpeg",
         "/valley_south_outside_night.jpeg",
         "/valley_south_town_view.jpeg",
       ];
@@ -49,7 +49,7 @@ function AllRooms()
               ]}
             />
             </div>
-            <NorthRoomCards />
+            <NorthhouseCards />
             <div className="flex justify-center items-center py-10 mt-10">
               <TypewriterEffectSmoothDemo
                 words={[
@@ -58,9 +58,9 @@ function AllRooms()
                 ]}
               />
               </div>
-              <SouthRoomCards />
+              <SouthhouseCards />
               </div>
     )
 }
 
-export default AllRooms;
+export default Allhouses;
