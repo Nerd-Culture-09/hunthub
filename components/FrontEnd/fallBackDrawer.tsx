@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Bar, BarChart, Label, ResponsiveContainer } from "recharts";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "../ui/input";
@@ -29,17 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CheckIcon, LocateIcon, Pickaxe } from "lucide-react";
-import { createReservation, getAvailRooms } from "@/actions/rooms";
-import toast, { Toaster } from "react-hot-toast";
 import { IconLocationPin } from "@tabler/icons-react";
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select";
   import { 
     AlertDialog,
     AlertDialogAction, 
@@ -51,32 +40,12 @@ import { IconLocationPin } from "@tabler/icons-react";
     AlertDialogTitle, 
     AlertDialogTrigger 
   } from "@/components/ui/alert-dialog";
-import { CheckIcon } from "lucide-react"
 import { createReservation, getAvailhouses } from "@/actions/house"
 import toast, { Toaster } from 'react-hot-toast';
 
 
 export function BookDrawer() {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<ReservationProps>();
-  const router = useRouter(); // Use the Next.js router for redirection
-  const cancelRef = useRef(null); // Reference for the cancel button in AlertDialog
 
-  // State for date, branch selection, and available rooms
-  const [checkIn, setCheckIn] = useState<Date | undefined>();
-  const [checkOut, setCheckOut] = useState<Date | undefined>();
-  const [selectHour, setSelectHour] = useState<string | undefined>();
-  const [selectMinute, setSelectMinute] = useState<string | undefined>();
-  const [selectedHour, setSelectedHour] = useState<string | undefined>();
-  const [selectedMinute, setSelectedMinute] = useState<string | undefined>();
-  const [branch, setBranch] = useState<"North" | "South" | undefined>();
-  const [numberOfRooms, setNumberOfRooms] = useState<number | undefined>();
-  const [isLoading, setIsLoading] = useState(false);
-  const [availableRooms, setAvailableRooms] = useState<any[]>([]);
     const {
         register,
         handleSubmit,
@@ -102,14 +71,6 @@ export function BookDrawer() {
   const [isDialogLoading, setIsDialogLoading] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  // Fetch available rooms on component mount
-  useEffect(() => {
-    const fetchAvailableRooms = async () => {
-      const result = await getAvailRooms();
-      if (result.status === 200) {
-        setAvailableRooms(result.data ?? []); // Fallback to an empty array if result.data is null
-      }
-    };
        // Fetch available houses on component mount
         useEffect(() => {
             const fetchAvailablehouses = async () => {
@@ -119,7 +80,7 @@ export function BookDrawer() {
             }
             };
 
-            fetchAvailableRooms();
+            fetchAvailablehouses();
         }, []);
 
   // Submit function inside the AlertDialog action
@@ -162,6 +123,7 @@ export function BookDrawer() {
   };
 
   return (
+    <>
     <Drawer>
       <DrawerTrigger asChild>
         <div className="flex justify-center items-center">
@@ -179,7 +141,7 @@ export function BookDrawer() {
             <DrawerTitle>Get Rental by location</DrawerTitle>
             <DrawerDescription>Rent your space</DrawerDescription>
           </DrawerHeader>
-          <div className="flex justify-center items-center p-4 pb-0">
+          <LabelInputContainer>
             <div>
               <Input placeholder="search location" />
             </div>
@@ -190,7 +152,7 @@ export function BookDrawer() {
             <Input
                 type="number"
                 placeholder="Enter number"
-                onChange={(e) => setNumberOfRooms(Number(e.target.value))}
+                onChange={(e) => setNumberOfhouses(Number(e.target.value))}
             />
             </div>
         </LabelInputContainer>
@@ -203,23 +165,21 @@ export function BookDrawer() {
                 <SelectContent>
                 <SelectGroup>
                     <SelectLabel>Available Rooms</SelectLabel>
-                    {availableRooms.length > 0 ? (
-                    availableRooms.map((room) => (
+                    {availablehouses.length > 0 ? (
+                    availablehouses.map((room) => (
                         <SelectItem key={room.id} value={room.title}>
                         {room.title} - {room.category}
                         </SelectItem>
                     ))
                     ) : (
-                    <SelectItem disabled value="no_rooms">No rooms available</SelectItem>
+                    <SelectItem disabled value="no_rooms">No houses available</SelectItem>
                     )}
                 </SelectGroup>
                 </SelectContent>
             </Select>
         </LabelInputContainer>
         <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
-            </form>
             </div>
-          </div>
           <DrawerFooter>
             <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <AlertDialogTrigger asChild>
@@ -247,9 +207,9 @@ export function BookDrawer() {
               </AlertDialogContent>
             </AlertDialog>
           </DrawerFooter>
-        </div>
       </DrawerContent>
     </Drawer>
+    </>
   );
 }
 
