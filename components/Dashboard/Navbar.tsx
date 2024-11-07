@@ -30,16 +30,11 @@ export default function NavBar() {
 
   // Sidebar links
   const sideBarLinks = [
-<<<<<<< HEAD
     {title:"Home", path:"/", icon: House},
     {title:"Dashboard", path:"/dashboard", icon: Activity},
     {title:"Houses", path:"/dashboard/south", icon: Hotel},
-=======
-    { title: "Home", path: "/", icon: House },
-    { title: "Dashboard", path: "/dashboard", icon: Activity },
-    { title: "Rooms", path: "/dashboard/south", icon: Hotel },
->>>>>>> 179bfb8e32bc23bcb92163032e51c96ffc0a3e14
   ];
+  
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
       <Sheet>

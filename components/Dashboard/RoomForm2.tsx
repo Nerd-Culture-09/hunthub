@@ -16,7 +16,7 @@ import { createhouse } from "@/actions/house";
 
 export default function HouseForm2({ title }: { title: string }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string>(""); // State for image URL
+  const [imageUrl, setImageUrl] = useState<string>("");
 
   const {
     register,
@@ -77,23 +77,23 @@ async function onSubmit(data: houseProps) {
         <div className="grid gap-4 grid-cols-2">
           {/* Text input for house title */}
           <TextInput
-            label="house Title"
+            label="House Location"
             register={register}
             name="title"
             errors={errors}
-            placeholder="Enter house Title"
+            placeholder="Enter house title"
           />
           {/* Text input for house description */}
           <TextInput
-            label="house Description"
+            label="House Description"
             register={register}
             name="description"
             errors={errors}
-            placeholder="Enter house Description"
+            placeholder="Enter house description"
           />
           {/* Image input for house image */}
           <ImageInput
-            label="house Image"
+            label="House Image"
             imageUrl={imageUrl}
             setImageUrl={setImageUrl}
             endpoint="houseImage"
@@ -135,7 +135,7 @@ async function onSubmit(data: houseProps) {
             <Link href="/dashboard/south">Cancel</Link>
           </Button>
           <SubmitButton
-            title={"Create house"}
+            title={"Create House"}
             isLoading={isLoading}
             LoadingTitle={"Saving please wait..."}
           />

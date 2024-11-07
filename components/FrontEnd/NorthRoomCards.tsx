@@ -9,12 +9,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Bath, Bed, Table, Wifi } from "lucide-react";
+import { Bath, Bed, Table, Wifi,Droplets, Shield, Fence, Zap } from "lucide-react";
 import Image from "next/image";
 import { DummyContent } from "./DummyContent";
 import { Button } from "../ui/button";
 import { FaTimes } from "react-icons/fa";
-import { gethousesNorth } from "@/actions/house"; // Importing the gethouses function
+import { gethousesNorth } from "@/actions/house";
 
 interface house {
   id: string;
@@ -75,24 +75,24 @@ export default function NorthhouseCards() {
                 />
               </div>
               <div className="grid grid-cols-2 gap-4 content-start text-sm">
-                {house.amenities.includes("Bed") && (
+                {house.amenities.includes("Droplets") && (
                   <AmenityItem>
-                    <Bed className="w-4 h-4 font-bold text-blue-600" /> Bed
+                    <Droplets className="w-4 h-4 font-bold text-blue-600" /> Water
                   </AmenityItem>
                 )}
-                {house.amenities.includes("Table") && (
+                {house.amenities.includes("Fence") && (
                   <AmenityItem>
-                    <Table className="w-4 h-4 text-blue-600" /> Table
+                    <Fence className="w-4 h-4 text-blue-600" /> Fence
                   </AmenityItem>
                 )}
-                {house.amenities.includes("Wifi") && (
-                  <AmenityItem>
-                    <Wifi className="w-4 h-4 text-blue-600" /> Wifi
-                  </AmenityItem>
-                )}
-                {house.amenities.includes("Shower") && (
+                {house.amenities.includes("Bath") && (
                   <AmenityItem>
                     <Bath className="w-4 h-4 text-blue-600" /> Shower
+                  </AmenityItem>
+                )}
+                {house.amenities.includes("Zap") && (
+                  <AmenityItem>
+                    <Zap className="w-4 h-4 text-blue-600" /> Electricity
                   </AmenityItem>
                 )}
               </div>

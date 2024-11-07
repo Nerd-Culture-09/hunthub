@@ -69,7 +69,7 @@ export const DummyContent: React.FC<DummyContentProps> = ({
         {step === 1 && (
           <div className="lg:w-3/4">
             <div className="-mt-28">
-              <houseCarouselDemo images={images} />
+              <HouseCarouselDemo images={images} />
               <div className="w-full flex justify-center p-5">
                 <Button onClick={handleNextStep}>Book now</Button>
               </div>
