@@ -29,12 +29,10 @@ export const DummyContent: React.FC<DummyContentProps> = ({
   const [userDetails, setUserDetails] = useState<{
     fullName: string;
     email: string;
-    payment: string;
     phone: string;
   }>({
     fullName: "",
     email: "",
-    payment: "",
     phone: "",
   });
 
@@ -47,10 +45,9 @@ export const DummyContent: React.FC<DummyContentProps> = ({
     fullName: string;
     email: string;
     phone: string;
-    payment: string;
   }) => {
     setUserDetails(details);
-    handleNextStep();  // Move to the confirmation page
+    handleNextStep();
   };
 
   const amenityIcons: Record<string, JSX.Element> = {

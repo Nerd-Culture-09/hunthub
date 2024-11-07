@@ -37,13 +37,10 @@ model Booking {
   id              String   @id @default(cuid()) @map("_id")
   houseId          String   @db.ObjectId
   houseTitle       String?
-  checkInDate     DateTime
-  checkOutDate    DateTime
   fullName        String
   email           String
   phoneNumber     String
   bookingFor      String
-  paymentMethod   String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 

@@ -7,7 +7,6 @@ interface ConfirmationPageProps {
     fullName: string;
     email: string;
     phone: string;
-    payment: string;
   };
 }
 
@@ -24,7 +23,6 @@ export const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
         <p><span className="text-green-600 font-bold">Full Name:</span> {userDetails.fullName}</p>
         <p><span className="text-green-600 font-bold">Email:</span> {userDetails.email}</p>
         <p><span className="text-green-600 font-bold">Phone Number:</span> {userDetails.phone}</p>
-        <p><span className="text-green-600 font-bold">Payment Method:</span> {userDetails.payment}</p>
       </div>
       <Button onClick={() => setIsVisible(true)}>Confirm Booking</Button>
       {isVisible && (

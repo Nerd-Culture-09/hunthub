@@ -75,9 +75,6 @@ export async function getFilteredBookings() {
         fullName: true,
         phoneNumber: true,
         email: true,
-        paymentMethod: true,
-        checkInDate: true,
-        checkOutDate: true,
         house: {
           select: {
             title: true,
