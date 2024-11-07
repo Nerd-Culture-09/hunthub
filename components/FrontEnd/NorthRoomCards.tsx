@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Bath, Bed, Table, Wifi,Droplets, Shield, Fence, Zap } from "lucide-react";
+import { Bath, Droplets, Fence, Zap, ShowerHead } from "lucide-react";
 import Image from "next/image";
 import { DummyContent } from "./DummyContent";
 import { Button } from "../ui/button";
@@ -24,7 +24,7 @@ interface house {
   category: string;
   price: string;
   amenities: string[];
-  isAvailable: boolean; // Add the isAvailable field here
+  isAvailable: boolean;
 }
 
 export default function NorthhouseCards() {
@@ -85,9 +85,14 @@ export default function NorthhouseCards() {
                     <Fence className="w-4 h-4 text-blue-600" /> Fence
                   </AmenityItem>
                 )}
+                {house.amenities.includes("ShowerHead") && (
+                  <AmenityItem>
+                    <ShowerHead className="w-4 h-4 text-blue-600" /> Shower
+                  </AmenityItem>
+                )}
                 {house.amenities.includes("Bath") && (
                   <AmenityItem>
-                    <Bath className="w-4 h-4 text-blue-600" /> Shower
+                    <Bath className="w-4 h-4 text-blue-600" /> Tub
                   </AmenityItem>
                 )}
                 {house.amenities.includes("Zap") && (
@@ -104,7 +109,7 @@ export default function NorthhouseCards() {
                   } text-white`}
                   disabled={isLoading}
                 >
-                  {isLoading ? "please wait..." : "Reserve"}
+                  {isLoading ? "please wait..." : "View House"}
                 </Button>
                 <p className="border border-green-500 rounded-lg w-16">
                   <span className="flex justify-center pt-2 font-extrabold">M{house.price}</span>
@@ -127,7 +132,7 @@ export default function NorthhouseCards() {
               images={[selectedhouse.image]}
               price={selectedhouse.price}
               amenities={selectedhouse.amenities}
-              houseId={selectedhouse.id} // Add houseId here for booking
+              houseId={selectedhouse.id}
               />
           </div>
         </div>

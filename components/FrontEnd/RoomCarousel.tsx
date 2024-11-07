@@ -13,7 +13,7 @@ interface houseCarouselDemoProps {
   images: string[];
 }
 
-export function houseCarouselDemo({ images }: houseCarouselDemoProps) {
+export function HouseCarouselDemo({ images }: houseCarouselDemoProps) {
   return (
     <Carousel className="mt-40 justify-start flex flex-row">
       <CarouselContent>

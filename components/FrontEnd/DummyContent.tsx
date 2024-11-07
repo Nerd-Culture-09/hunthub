@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { houseCarouselDemo } from "./houseCarousel";
 import { Button } from "@/components/ui/button";
 import { Timeline } from "./BookTimeline";
 import { ConfirmationPage } from "./ConfirmBooking";
-import { Bath, Bed, Table, Wifi } from 'lucide-react';
+import { Bath, Droplets, Fence, Zap, ShowerHead } from "lucide-react";
 import BookingForm from "./BookingForm";
+import { HouseCarouselDemo } from "./RoomCarousel";
 
 interface DummyContentProps {
   category: string;
@@ -54,10 +54,11 @@ export const DummyContent: React.FC<DummyContentProps> = ({
   };
 
   const amenityIcons: Record<string, JSX.Element> = {
-    Wifi: <Wifi className="w-5 h-5 text-blue-600" />,
-    Bed: <Bed className="w-5 h-5 text-blue-600" />,
-    Shower: <Bath className="w-5 h-5 text-blue-600" />,
-    Table: <Table className="w-5 h-5 text-blue-600" />,
+    Fence: <Fence className="w-5 h-5 text-blue-600" />,
+    Droplets: <Droplets className="w-5 h-5 text-blue-600" />,
+    Bath: <Bath className="w-5 h-5 text-blue-600" />,
+    Zap: <Zap className="w-5 h-5 text-blue-600" />,
+    ShowerHead: <ShowerHead className="w-5 h-5 text-blue-600" />,
   };
 
   console.log('house ID passed to DummyContent:', houseId);
@@ -97,14 +98,11 @@ export const DummyContent: React.FC<DummyContentProps> = ({
           <div className="lg:w-1/2 mt-8 lg:mt-10">
             <div className="bg-[#F5F5F7] dark:bg-neutral-800 p-8 md:p-14 rounded-3xl">
               <h3 className="text-neutral-700 text-2xl font-bold">
-                {category}
-              </h3>
-              <h4 className="text-neutral-700 dark:text-neutral-200 text-lg mb-4">
                 {title}
+              </h3>
                 <h1>
                   Price: <span className="text-green-600 font-semibold">M{price}</span>
                 </h1>
-              </h4>
               <div className="house-amenities">
                 <h4 className="font-bold">Amenities:</h4>
                 <ul className="flex space-x-4">
