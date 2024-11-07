@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import toast, { Toaster } from 'react-hot-toast';
 import { Button } from "@/components/ui/button";
 import TextInput from "../FormInputs/TextInput";
-import { DatePickerInput } from "../FormInputs/DatePickerInput";
 import { SelectInput } from "../FormInputs/SelectInput";
 import { BookingProps } from "@/types/types";
 import { createBooking } from "@/actions/booking";
@@ -14,12 +13,11 @@ import { title } from "process";
 
 interface BookingFormProps {
   houseId: string;
-  houseTitle: string;  // Add houseTitle prop
+  houseTitle: string;
   onNextStep: (details: {
     fullName: string;
     email: string;
     phone: string;
-    payment: string;
   }) => void;
 }
 export default function BookingForm({ houseId,  onNextStep  }: BookingFormProps) {
@@ -33,39 +31,21 @@ export default function BookingForm({ houseId,  onNextStep  }: BookingFormProps)
   } = useForm<BookingProps>();
 
   const [bookingFor, setBookingFor] = useState<string | undefined>();
-  const [paymentMethod, setPaymentMethod] = useState<string | undefined>();
-  const [checkInDate, setCheckInDate] = useState<Date | undefined>();
-  const [checkOutDate, setCheckOutDate] = useState<Date | undefined>();
+  
 
-  const [selectedHour, setSelectedHour] = useState<string | undefined>();
-  const [selectedMinute, setSelectedMinute] = useState<string | undefined>();
-
-  const [selectHour, setSelectHour] = useState<string | undefined>();
-  const [selectMinute, setSelectMinute] = useState<string | undefined>();
 
   const Options = [
     { label: "Myself", value: "myself" },
     { label: "For Someone", value: "someone" },
   ];
 
-  const PaymentOptions = [
-    { label: "Mpesa", value: "mpesa" },
-    { label: "Ecocash", value: "ecocash" },
-  ];
 
   async function onSubmit(data: BookingProps) {
-    if (!checkInDate || !checkOutDate) {
-      toast.error("Please select both check-in and check-out dates.");
-      return;
-    }
   
     const bookingData: BookingProps = {
       ...data,
       houseId: houseId,
       houseTitle: title,
-      checkInDate: new Date(checkInDate!),
-      checkOutDate: new Date(checkOutDate!),
-      paymentMethod: paymentMethod || "",
       bookingFor: bookingFor || "",
     };
   
@@ -84,7 +64,6 @@ export default function BookingForm({ houseId,  onNextStep  }: BookingFormProps)
           fullName: data.fullName,
           email: data.emails,
           phone: data.phoneNumber,
-          payment: paymentMethod || "",
         });
       } else {
         toast.error(response.error || "Failed to create booking.");
@@ -123,24 +102,6 @@ export default function BookingForm({ houseId,  onNextStep  }: BookingFormProps)
           errors={errors}
           placeholder="+266 57897856"
         />
-        <DatePickerInput
-          date={checkInDate}
-          setDate={setCheckInDate}
-          selectedHour={selectedHour}
-          setSelectedHour={setSelectedHour}
-          selectedMinute={selectedMinute}
-          setSelectedMinute={setSelectedMinute}
-          title="Check-In Date and Time"
-        />
-        <DatePickerInput
-          date={checkOutDate}
-          setDate={setCheckOutDate}
-          selectedHour={selectHour}
-          setSelectedHour={setSelectHour}
-          selectedMinute={selectMinute}
-          setSelectedMinute={setSelectMinute}
-          title="Check-Out Date and Time"
-        />
         <SelectInput
           label="Booking For?"
           optionTitle="Who are you booking for?"
@@ -148,14 +109,6 @@ export default function BookingForm({ houseId,  onNextStep  }: BookingFormProps)
           errors={errors}
           selectedOption={bookingFor}
           setSelectedOption={setBookingFor}
-        />
-        <SelectInput
-          label="Payment Method?"
-          optionTitle="Select method of payment"
-          options={PaymentOptions}
-          errors={errors}
-          selectedOption={paymentMethod}
-          setSelectedOption={setPaymentMethod}
         />
       </div>
       <div className="mt-8 flex justify-end gap-4">

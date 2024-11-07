@@ -7,13 +7,10 @@ export async function createBooking(formData: any) {
   console.log("Booking Form Data:", formData); // Debugging line
   const {
     houseId,
-    checkInDate,
-    checkOutDate,
     fullName,
     email,
     phoneNumber,
     bookingFor,
-    paymentMethod,
   } = formData;
 
   // Validate houseId
@@ -44,13 +41,10 @@ export async function createBooking(formData: any) {
     const newBooking = await prismaClient.booking.create({
       data: {
         houseId, // Ensure houseId is provided
-        checkInDate: new Date(checkInDate), // Ensure dates are in correct format
-        checkOutDate: new Date(checkOutDate),
         fullName,
         email,
         phoneNumber,
         bookingFor,
-        paymentMethod,
         houseTitle: house.title, // Add the house title to the booking
       },
     });
